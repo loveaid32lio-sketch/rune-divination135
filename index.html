@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUMI - ルーン占い</title>
+    <meta name="description" content="北欧のルーン文字から、あなたの人生に必要なメッセージを受け取る瞑想的な占いツール。">
+    <meta name="theme-color" content="#1a3a3a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SUMI ルーン占い">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="icon.svg">
+    <link rel="apple-touch-icon" href="icon.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', 'Lora', serif;
+            background: linear-gradient(135deg, #1a3a3a 0%, #2d4a3a 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #d4af37;
+            margin-bottom: 15px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .subtitle {
+            font-size: 1.1em;
+            color: #a7b791;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .description {
+            color: #d0ccc5;
+            line-height: 1.8;
+            margin-bottom: 50px;
+            font-size: 0.95em;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-direction: column;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            font-size: 1.1em;
+            border: 2px solid #d4af37;
+            background: rgba(212, 175, 55, 0.1);
+            color: #d4af37;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Cormorant Garamond', serif;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            background: #d4af37;
+            color: #1a3a3a;
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d4af37 0%, #a7b791 100%);
+            color: #1a3a3a;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.5);
+        }
+
+        .line-button {
+            background: linear-gradient(135deg, #00b900 0%, #00a000 100%);
+            border: none;
+            color: white;
+        }
+
+        .line-button:hover {
+            box-shadow: 0 8px 30px rgba(0, 185, 0, 0.5);
+        }
+
+        .footer {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            color: #888;
+            font-size: 0.85em;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .logo {
+                font-size: 3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">✦</div>
+        <h1>SUMI</h1>
+        <p class="subtitle">やりたいことを見つける瞑想 ルーン占い</p>
+
+        <div class="description">
+            <p>北欧の古代叡智「ルーン」から、あなたの人生に必要なメッセージを受け取ってください。</p>
+            <p style="margin-top: 15px;">心を静めて、ルーンの声に耳を傾ける。その時、宇宙からのメッセージが降りてきます。</p>
+        </div>
+
+        <div class="button-group">
+            <a href="rune_list_v3.html" class="btn btn-primary">✦ ルーン占いを始める ✦</a>
+            <a href="https://lin.ee/NhTXkU1" class="btn line-button">📱 LINEで詳しく知る</a>
+        </div>
+
+        <div class="footer">
+            <p>© 2024 SUMI - Elder Futhark Divination</p>
+            <p>古き北欧の知恵が、現代のあなたを照らします</p>
+        </div>
+    </div>
+
+    <script>
+        // Service Worker登録
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+                .then(registration => console.log('Service Worker registered'))
+                .catch(error => console.log('Service Worker registration failed:', error));
+        }
+    </script>
+</body>
+</html>

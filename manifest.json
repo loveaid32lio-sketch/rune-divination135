@@ -1,0 +1,29 @@
+{
+  "name": "SUMI - やりたいことを見つける瞑想 ルーン占い",
+  "short_name": "SUMI ルーン占い",
+  "description": "北欧のルーンからあなたへのメッセージを受け取ってください。瞑想で人生の一歩を踏み出すお手伝いをします。",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1a3a3a",
+  "theme_color": "#2d4a3a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "icon.svg",
+      "sizes": "540x720",
+      "type": "image/svg+xml",
+      "form_factor": "narrow"
+    }
+  ],
+  "categories": ["lifestyle", "health"],
+  "scope": "/",
+  "prefer_related_applications": false
+}

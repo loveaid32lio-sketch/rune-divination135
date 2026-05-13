@@ -1,0 +1,56 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="50%">
+      <stop offset="0%" style="stop-color:#d4af37;stop-opacity:0.8" />
+      <stop offset="50%" style="stop-color:#8ab48a;stop-opacity:0.4" />
+      <stop offset="100%" style="stop-color:#2d4a3a;stop-opacity:0" />
+    </radialGradient>
+    <filter id="glowEffect">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 背景グラデーション -->
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a3a3a;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#2d5a4a;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" fill="url(#bg)"/>
+
+  <!-- 光の背景 -->
+  <circle cx="256" cy="256" r="200" fill="url(#glow)" opacity="0.6"/>
+
+  <!-- 中心の光の円 -->
+  <circle cx="256" cy="256" r="180" fill="none" stroke="#d4af37" stroke-width="3" opacity="0.3" filter="url(#glowEffect)"/>
+
+  <!-- ルーン文字（Blank/◯）-->
+  <circle cx="256" cy="256" r="100" fill="none" stroke="#d4af37" stroke-width="6" opacity="0.9" filter="url(#glowEffect)"/>
+
+  <!-- 内側の装飾線 -->
+  <circle cx="256" cy="256" r="80" fill="none" stroke="#8ab48a" stroke-width="2" opacity="0.5"/>
+
+  <!-- スターバースト効果 -->
+  <g opacity="0.4">
+    <line x1="256" y1="100" x2="256" y2="140" stroke="#d4af37" stroke-width="3"/>
+    <line x1="256" y1="372" x2="256" y2="412" stroke="#d4af37" stroke-width="3"/>
+    <line x1="100" y1="256" x2="140" y2="256" stroke="#d4af37" stroke-width="3"/>
+    <line x1="372" y1="256" x2="412" y2="256" stroke="#d4af37" stroke-width="3"/>
+
+    <line x1="150" y1="150" x2="180" y2="180" stroke="#d4af37" stroke-width="2"/>
+    <line x1="332" y1="332" x2="362" y2="362" stroke="#d4af37" stroke-width="2"/>
+    <line x1="362" y1="150" x2="332" y2="180" stroke="#d4af37" stroke-width="2"/>
+    <line x1="180" y1="332" x2="150" y2="362" stroke="#d4af37" stroke-width="2"/>
+  </g>
+
+  <!-- 中心の光 -->
+  <circle cx="256" cy="256" r="50" fill="#d4af37" opacity="0.3" filter="url(#glowEffect)"/>
+  <circle cx="256" cy="256" r="30" fill="#d4af37" opacity="0.6" filter="url(#glowEffect)"/>
+  <circle cx="256" cy="256" r="20" fill="#ffffff" opacity="0.8"/>
+</svg>

@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elder Futhark | Rune Divination</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Lora:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', 'Lora', serif;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2a 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #e0ddd8;
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 40px;
+            border-bottom: 2px solid rgba(167, 183, 145, 0.3);
+        }
+
+        h1 {
+            font-size: 3.2em;
+            color: #a7b791;
+            margin-bottom: 8px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(167, 183, 145, 0.4);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            color: #a7b791;
+            font-style: italic;
+            margin-bottom: 30px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-shadow: 0 0 15px rgba(167, 183, 145, 0.2);
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 35px;
+            border: 2px solid #a7b791;
+            background: rgba(167, 183, 145, 0.05);
+            color: #a7b791;
+            font-size: 0.95em;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-family: 'Cormorant Garamond', serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 400;
+        }
+
+        .btn:hover {
+            background: #a7b791;
+            color: #1a1a1a;
+            box-shadow: 0 0 20px rgba(167, 183, 145, 0.3);
+        }
+
+        .btn.active {
+            background: #a7b791;
+            color: #1a1a1a;
+            box-shadow: 0 0 25px rgba(167, 183, 145, 0.4);
+        }
+
+        .rune-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .rune-card {
+            background: rgba(30, 30, 28, 0.9);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(167, 183, 145, 0.15);
+        }
+
+        .rune-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(167, 183, 145, 0.2);
+            border-color: rgba(167, 183, 145, 0.4);
+        }
+
+        .rune-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #2a2a27 0%, #1f1f1c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5em;
+            line-height: 1;
+            text-shadow:
+                0 0 20px rgba(167, 183, 145, 0.6),
+                0 0 40px rgba(167, 183, 145, 0.3),
+                0 0 60px rgba(167, 183, 145, 0.15);
+            color: #a7b791;
+            border-bottom: 1px solid rgba(167, 183, 145, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .rune-image.flipped {
+            transform: scaleY(-1);
+        }
+
+        .rune-content {
+            padding: 25px;
+        }
+
+        .rune-header {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .rune-name {
+            font-size: 1.5em;
+            color: #a7b791;
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
+
+        .rune-reading {
+            font-size: 0.95em;
+            color: #b5a97e;
+            font-weight: 400;
+            text-shadow: 0 0 10px rgba(167, 183, 145, 0.15);
+        }
+
+        .rune-origin-section {
+            background: rgba(167, 183, 145, 0.05);
+            border-left: 3px solid #a7b791;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 4px;
+        }
+
+        .rune-origin-label {
+            font-size: 0.75em;
+            color: #a7b791;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .rune-origin-text {
+            font-size: 0.85em;
+            color: #b5a97e;
+            line-height: 1.5;
+            font-weight: 300;
+        }
+
+        .rune-meanings {
+            margin-bottom: 15px;
+        }
+
+        .meaning-section {
+            margin-bottom: 12px;
+        }
+
+        .meaning-label {
+            font-size: 0.8em;
+            color: #a7b791;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .meaning-text {
+            font-size: 0.9em;
+            color: #d0ccc5;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .aett-title {
+            font-size: 1.4em;
+            color: #a7b791;
+            margin: 40px 0 25px 0;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(167, 183, 145, 0.2);
+            text-shadow: 0 0 10px rgba(167, 183, 145, 0.2);
+        }
+
+        .divination-section {
+            display: none;
+        }
+
+        .divination-section.active {
+            display: block;
+        }
+
+        .divination-intro {
+            max-width: 800px;
+            margin: 0 auto 50px;
+            text-align: center;
+        }
+
+        .divination-intro h2 {
+            font-size: 2em;
+            color: #a7b791;
+            margin-bottom: 25px;
+            font-weight: 300;
+            text-shadow: 0 0 15px rgba(167, 183, 145, 0.3);
+        }
+
+        .divination-type-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .type-btn {
+            padding: 10px 25px;
+            border: 2px solid #a7b791;
+            background: rgba(167, 183, 145, 0.05);
+            color: #a7b791;
+            font-size: 0.9em;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            font-family: 'Cormorant Garamond', serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 400;
+        }
+
+        .type-btn:hover {
+            background: #a7b791;
+            color: #1a1a1a;
+            box-shadow: 0 0 15px rgba(167, 183, 145, 0.3);
+        }
+
+        .type-btn.active {
+            background: #a7b791;
+            color: #1a1a1a;
+            box-shadow: 0 0 20px rgba(167, 183, 145, 0.4);
+        }
+
+        .divination-guide {
+            background: rgba(167, 183, 145, 0.05);
+            border-left: 4px solid #a7b791;
+            border-radius: 4px;
+            padding: 25px;
+            margin: 30px auto;
+            max-width: 800px;
+            display: none;
+        }
+
+        .divination-guide.active {
+            display: block;
+        }
+
+        .guide-title {
+            font-size: 1.2em;
+            color: #a7b791;
+            margin-bottom: 15px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .guide-content {
+            font-size: 0.95em;
+            color: #d0ccc5;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        .guide-content p {
+            margin-bottom: 12px;
+        }
+
+        .guide-content strong {
+            color: #a7b791;
+            font-weight: 500;
+        }
+
+        .draw-button-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .draw-btn {
+            padding: 16px 50px;
+            background: linear-gradient(135deg, #a7b791 0%, #8f9a78 100%);
+            color: #1a1a1a;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Cormorant Garamond', serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 24px rgba(167, 183, 145, 0.25);
+        }
+
+        .draw-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(167, 183, 145, 0.35);
+        }
+
+        .rune-result-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .rune-result-card {
+            background: rgba(30, 30, 28, 0.9);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(167, 183, 145, 0.15);
+        }
+
+        .result-position-label {
+            background: rgba(167, 183, 145, 0.1);
+            color: #a7b791;
+            padding: 12px;
+            text-align: center;
+            font-size: 0.9em;
+            font-weight: 600;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(167, 183, 145, 0.2);
+        }
+
+        .result-rune-image {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(135deg, #2a2a27 0%, #1f1f1c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+            color: #a7b791;
+            text-shadow:
+                0 0 15px rgba(167, 183, 145, 0.6),
+                0 0 30px rgba(167, 183, 145, 0.3);
+            border-bottom: 1px solid rgba(167, 183, 145, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .result-rune-image.flipped {
+            transform: scaleY(-1);
+        }
+
+        .result-content {
+            padding: 20px;
+        }
+
+        .result-name {
+            font-size: 1.3em;
+            color: #a7b791;
+            margin-bottom: 8px;
+            font-weight: 400;
+        }
+
+        .result-position {
+            font-size: 0.8em;
+            color: #8ab48a;
+            margin-bottom: 12px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .result-meaning {
+            font-size: 0.85em;
+            color: #d0ccc5;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .view-section {
+            display: none;
+        }
+
+        .view-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .draw-result {
+            animation: fadeIn 0.8s ease;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .rune-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .divination-type-buttons {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .type-btn {
+                width: 100%;
+            }
+
+            .rune-result-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✦ Elder Futhark ✦</h1>
+            <p class="subtitle">Ancient Wisdom in Runes</p>
+
+            <div class="nav-buttons">
+                <button class="btn active" onclick="showView('list')">📖 Rune Gallery</button>
+                <button class="btn" onclick="showView('draw')">🎲 Rune Reading</button>
+            </div>
+        </header>
+
+        <!-- 一覧ビュー -->
+        <div id="list" class="view-section active">
+            <div id="runeList"></div>
+        </div>
+
+        <!-- 占いビュー -->
+        <div id="draw" class="view-section divination-section">
+            <div class="divination-intro">
+                <h2>✦ Rune Reading ✦</h2>
+                <p style="font-size: 1em; color: #c0bbb4; margin-bottom: 40px; line-height: 1.8;">
+                    心を静めて、ルーンの声に耳を傾けてください。<br>
+                    古代の知恵が、今あなたに必要なメッセージを届けます。
+                </p>
+
+                <div style="margin-bottom: 40px;">
+                    <p style="font-size: 0.95em; color: #a7b791; margin-bottom: 20px; font-weight: 400;">占い方法を選んでください：</p>
+                    <div class="divination-type-buttons">
+                        <button class="type-btn active" onclick="changeDivinationType(1)">1枚引き</button>
+                        <button class="type-btn" onclick="changeDivinationType(3)">3枚引き</button>
+                        <button class="type-btn" onclick="changeDivinationType(5)">5枚引き</button>
+                    </div>
+                </div>
+
+                <!-- 占い方法の手引き -->
+                <div id="guide1" class="divination-guide active">
+                    <div class="guide-title">📖 1枚引きの使い方</div>
+                    <div class="guide-content">
+                        <p><strong>最もシンプルで直感的な占い方法です。</strong></p>
+                        <p>その時のあなたの状況全体、または特定の質問への答えを、1枚のルーンから受け取ります。ルーンが示すメッセージに素直に耳を傾けることで、心が見つめるべき本当のことが浮かび上がります。</p>
+                        <p><strong>こんな時に最適：</strong>毎日のメッセージ、今日のアドバイス、シンプルな質問への答え、人生の選択肢が2つに絞られている時</p>
+                    </div>
+                </div>
+
+                <div id="guide3" class="divination-guide">
+                    <div class="guide-title">📖 3枚引きの使い方</div>
+                    <div class="guide-content">
+                        <p><strong>過去・現在・未来の流れを読む方法。</strong></p>
+                        <p>最初のルーンはあなたの過去や背景を、2番目はあなたの現在地を、3番目はこれから進むべき未来を示します。この3つのルーンの関連性を読むことで、あなたの人生の物語が立体的に浮かび上がります。</p>
+                        <p>また「課題・原因・解決策」や「自分・相手・関係性」など、異なる視点で3つのポジションを読むこともできます。</p>
+                        <p><strong>こんな時に最適：</strong>人間関係の悩み、仕事の困難、人生の転機、過去から現在への流れを理解したい時</p>
+                    </div>
+                </div>
+
+                <div id="guide5" class="divination-guide">
+                    <div class="guide-title">📖 5枚引きの使い方</div>
+                    <div class="guide-content">
+                        <p><strong>5つのポジションで複雑な状況を多角的に分析します。</strong></p>
+                        <p>第1位置：<strong>課題</strong> - 今、あなたの前に立ちはだかっている課題や状況<br>
+                        第2位置：<strong>行動</strong> - その課題に対してあなたが取るべき行動<br>
+                        第3位置：<strong>障害</strong> - あなたが乗り越える必要のある障害<br>
+                        第4位置：<strong>助け</strong> - あなたを支援する力や資源<br>
+                        第5位置：<strong>結果</strong> - これらすべてが示す最終的な結果や到達点</p>
+                        <p><strong>こんな時に最適：</strong>人生の大きな決断、複雑な状況の分析、長期的な展望を知りたい時、深い洞察が必要な重要な局面</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="draw-button-container">
+                <button class="draw-btn" onclick="drawRunes()">✦ ルーンを引く ✦</button>
+            </div>
+            <div id="drawResult"></div>
+        </div>
+    </div>
+
+    <script>
+        const allRunes = [
+            {"id": 1, "character": "ᚠ", "name": "Fehu", "reading": "フェオ", "origin": "家畜の牛。古代社会では牛が最も重要な財産であり、富と豊かさの象徴として考えられていた。", "upright": "段階的な努力により豊かな成果を得る、物質的な豊かさと繁栄", "reversed": "強欲さや無駄づかい、経済的な課題", "hasReversed": true},
+            {"id": 2, "character": "ᚢ", "name": "Uruz", "reading": "ウル", "origin": "野生の野牛（現在は絶滅）。古代ゲルマン民族にとって最も危険で力強い動物で、制御できない原始的な力の象徴。", "upright": "本来の力強さと生命力、困難を打ち抜く勇気", "reversed": "エネルギーが枯渇、心身の疲弊", "hasReversed": true},
+            {"id": 3, "character": "ᚦ", "name": "Thurisaz", "reading": "ソーン", "origin": "巨人またはトゲ。北欧神話の巨人族の力と、防御や保護の象徴。危険と同時に守りをもたらす力。", "upright": "試練を通じた成長と変化、守られている時期", "reversed": "争いや悪い影響、警戒が必要な時期", "hasReversed": true},
+            {"id": 4, "character": "ᚨ", "name": "Ansuz", "reading": "アンスール", "origin": "神またはエスイル。北欧神話の高位の神々を意味し、神聖な叡智と言葉の力の象徴。", "upright": "知識と叡智による導き、言葉の力を信じる時期", "reversed": "誤解や情報の混乱、聞き間違い", "hasReversed": true},
+            {"id": 5, "character": "ᚱ", "name": "Raidho", "reading": "ラド", "origin": "旅または車輪。馬による旅と、人生の移動・進化を象徴。循環する時間と前への動きを表す。", "upright": "人生の新しいステージへの移動、スムーズな前進", "reversed": "停滞や遅延、方向転換の必要性", "hasReversed": true},
+            {"id": 6, "character": "ᚲ", "name": "Kenaz", "reading": "ケン", "origin": "松明または火。暗闇を照らす光であり、知識、視力、創造的なひらめきを象徴。", "upright": "内からの光、創造的な情熱が目覚める", "reversed": "やる気の喪失、物事が進まない停滞感", "hasReversed": true},
+            {"id": 7, "character": "ᚳ", "name": "Gebo", "reading": "ギュフ", "origin": "贈り物または交換。与えることと受け取ることの均衡、人間関係と絆を象徴。", "upright": "与えることと受け取るバランスの中の調和、絆の深まり", "hasReversed": false},
+            {"id": 8, "character": "ᚹ", "name": "Wunjo", "reading": "ウィン", "origin": "喜びまたは幸福。完成と達成感、人生の調和した状態を象徴。", "upright": "喜びと達成感、願いが形になる時期", "reversed": "失望や悔しさ、期待と現実のズレ", "hasReversed": true},
+            {"id": 9, "character": "ᚺ", "name": "Hagalaz", "reading": "ハガル", "origin": "ひょうまたは雹。予測不可能な自然災害であり、破壊と同時に新しい始まりをもたらす変化の象徴。", "upright": "避けられない変革、古いものが壊れ新しい始まりが来る", "hasReversed": false},
+            {"id": 10, "character": "ᚾ", "name": "Nauthiz", "reading": "ニード", "origin": "必要性または制約。困難な状況を乗り越えるために必要な強さと工夫を象徴。", "upright": "困難を通じた自己鍛錬、必要とされる我慢と工夫", "reversed": "やり過ぎによる疲弊、無理を続けている", "hasReversed": true},
+            {"id": 11, "character": "ᛁ", "name": "Isa", "reading": "イス", "origin": "氷。動きを止める冷たさと、静寂の中での内面的な深まりを象徴。", "upright": "今は待つべき時、静かに内面を見つめる期間", "hasReversed": false},
+            {"id": 12, "character": "ᛃ", "name": "Jera", "reading": "ヤラ", "origin": "一年または季節。時間の循環と自然のサイクルを象徴。すべてのものに時期がある。", "upright": "季節の循環と自然な流れ、蒔いた種が実を結ぶ時期", "hasReversed": false},
+            {"id": 13, "character": "ᛇ", "name": "Eihwaz", "reading": "ユル", "origin": "ヒバの木。堅い木であり、変容の中での安定と防御の力を象徴。", "upright": "大きな変容の中での安定、信念を持って進む", "hasReversed": false},
+            {"id": 14, "character": "ᛈ", "name": "Perthro", "reading": "ペオース", "origin": "賽子またはサイコロ。秘密で隠された運命、予測不可能な偶然を象徴。", "upright": "隠されていた可能性が開く、運命の導き", "reversed": "秘密が壊れる、予期しない展開で混乱", "hasReversed": true},
+            {"id": 15, "character": "ᛉ", "name": "Algiz", "reading": "エオロー", "origin": "ムース。強い動物であり、保護と防御、直感的な警戒心を象徴。", "upright": "導きと保護、直感が研ぎ澄まされている", "reversed": "無防備になっている、注意が必要", "hasReversed": true},
+            {"id": 16, "character": "ᛊ", "name": "Sowilo", "reading": "シゲル", "origin": "太陽。すべての光と暖かさの源であり、成功と明るい見通しを象徴。", "upright": "目標達成が近い、明るい見通しと成功", "hasReversed": false},
+            {"id": 17, "character": "ᛏ", "name": "Tiwaz", "reading": "ティール", "origin": "神ティール。北欧神話の正義と勇敢さの神であり、戦いと正義の象徴。", "upright": "正義のための決断、リーダーとしての資質を発揮する", "reversed": "無理な闘い、自分の限界を知る必要", "hasReversed": true},
+            {"id": 18, "character": "ᛒ", "name": "Berkano", "reading": "ベオーク", "origin": "樺の木。新しい成長と優しい再生、母性と新しい生命の象徴。", "upright": "新しい生命の誕生、成長と癒しの時期", "reversed": "成長が停滞、内面への向き合いが必要", "hasReversed": true},
+            {"id": 19, "character": "ᛖ", "name": "Ehwaz", "reading": "エオー", "origin": "馬。速度と動き、信頼できるパートナーとの協力を象徴。", "upright": "信頼できるパートナーとの調和、スムーズな協力関係", "reversed": "相手との衝突、信頼関係の危機", "hasReversed": true},
+            {"id": 20, "character": "ᛗ", "name": "Mannaz", "reading": "マン", "origin": "人間。自己認識と人間関係、社会における自分の位置を象徴。", "upright": "自分自身を知ること、周囲からの支援を受ける時期", "reversed": "孤立や自分勝手さ、人間関係の問題", "hasReversed": true},
+            {"id": 21, "character": "ᛚ", "name": "Laguz", "reading": "ラグ", "origin": "湖または海の水。流動性と深い直感、無意識の力を象徴。", "upright": "直感と感情の流れに身を任せる、無意識の力を信じる", "reversed": "感情が支配的、バランスを失っている", "hasReversed": true},
+            {"id": 22, "character": "ᛜ", "name": "Ingwaz", "reading": "イング", "origin": "種または神イング。内に秘められた可能性の完成と達成を象徴。", "upright": "事柄の完成が近い、新しいステージへの準備完了", "hasReversed": false},
+            {"id": 23, "character": "ᛟ", "name": "Othila", "reading": "オセル", "origin": "相続地または家。祖先からの遺産、家族の絆と伝統を象徴。", "upright": "家庭と基盤の安定、伝統と遺産を大切にする", "reversed": "家族との葛藤、自分らしさを見失う", "hasReversed": true},
+            {"id": 24, "character": "ᛞ", "name": "Dagaz", "reading": "ダエグ", "origin": "昼または夜明け。新しい時代の到来と目覚めの光を象徴。", "upright": "新しい朝が訪れる、光による目覚めと変化", "hasReversed": false},
+            {"id": 25, "character": "◯", "name": "Blank", "reading": "ブランク", "origin": "無限の可能性。古き時代と新しき時代の狭間に存在するルーン。すべての始まりであり、すべての終わりであり、その先の無限を象徴する。", "upright": "未知なる可能性、運命の導き、神秘なる力、問われた答えは今だ明かされず", "hasReversed": false}
+        ];
+
+        let currentDivinationType = 1;
+        let drawnRunes = [];
+
+        function showView(viewName) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(viewName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function changeDivinationType(num) {
+            currentDivinationType = num;
+            document.querySelectorAll('.type-btn').forEach(el => el.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('drawResult').innerHTML = '';
+            document.querySelectorAll('.divination-guide').forEach(el => el.classList.remove('active'));
+            document.getElementById('guide' + num).classList.add('active');
+        }
+
+        function drawRandomRune() {
+            const randomIndex = Math.floor(Math.random() * allRunes.length);
+            const rune = allRunes[randomIndex];
+            const isReversed = rune.hasReversed ? Math.random() < 0.5 : false;
+
+            return {
+                ...rune,
+                isReversed: isReversed,
+                position: isReversed ? '逆位置' : '正位置'
+            };
+        }
+
+        function drawRunes() {
+            drawnRunes = [];
+            for (let i = 0; i < currentDivinationType; i++) {
+                drawnRunes.push(drawRandomRune());
+            }
+            displayResults();
+        }
+
+        function displayResults() {
+            const resultDiv = document.getElementById('drawResult');
+            let html = '<div class="draw-result">';
+
+            const positionLabels = {
+                1: ['結果'],
+                3: ['過去', '現在', '未来'],
+                5: ['課題', '行動', '障害', '助け', '結果']
+            };
+
+            const labels = positionLabels[currentDivinationType];
+            html += '<div class="rune-result-container">';
+
+            drawnRunes.forEach((rune, index) => {
+                const meaning = rune.isReversed ? rune.reversed : rune.upright;
+                html += `
+                    <div class="rune-result-card">
+                        <div class="result-position-label">${labels[index]}</div>
+                        <div class="result-rune-image ${rune.isReversed ? 'flipped' : ''}">${rune.character}</div>
+                        <div class="result-content">
+                            <div class="result-name">${rune.name}</div>
+                            <div class="result-position">${rune.position}</div>
+                            <div class="result-meaning">${meaning}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div></div>';
+            resultDiv.innerHTML = html;
+        }
+
+        function renderRuneList() {
+            const listDiv = document.getElementById('runeList');
+            let html = '<div class="aett-title">全25ルーン</div>';
+            html += '<div class="rune-grid">';
+
+            allRunes.forEach(rune => {
+                const hasReverse = rune.hasReversed;
+                html += `
+                    <div class="rune-card">
+                        <div class="rune-image">${rune.character}</div>
+                        <div class="rune-content">
+                            <div class="rune-header">
+                                <div class="rune-name">${rune.name}</div>
+                                <div class="rune-reading">（${rune.reading}）</div>
+                            </div>
+                            <div class="rune-origin-section">
+                                <div class="rune-origin-label">成り立ち</div>
+                                <div class="rune-origin-text">${rune.origin}</div>
+                            </div>
+                            <div class="rune-meanings">
+                                <div class="meaning-section">
+                                    <div class="meaning-label">正位置</div>
+                                    <div class="meaning-text">${rune.upright}</div>
+                                </div>
+                                ${hasReverse ? `
+                                    <div class="meaning-section">
+                                        <div class="meaning-label">逆位置</div>
+                                        <div class="meaning-text">${rune.reversed}</div>
+                                    </div>
+                                ` : `<div style="font-size: 0.75em; color: #888; margin-top: 8px;">※逆位置なし</div>`}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+            listDiv.innerHTML = html;
+        }
+
+        renderRuneList();
+    </script>
+</body>
+</html>
